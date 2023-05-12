@@ -102,61 +102,62 @@ public class NPHOController {
 	    
 	    	}
 	   }
+}
 
-	@GetMapping("/trends/{year}")
-	public ResponseEntity<?> trendData(@PathVariable String year) throws IOException {
-		 List<JSONObject> jsonList = new ArrayList<>();
-		 
-		 Map<String, Integer> yearData = new HashMap<>();
-		    try {
-		      FileInputStream excelFile = new FileInputStream("April_2023.xlsx");
-		      XSSFWorkbook workbook = new XSSFWorkbook(excelFile);
-		      Sheet sheet = workbook.getSheetAt(0);
-
-		      int estimationMinIndex = -1, estimationMaxIndex = -1, yearIndex = -1;
-		      Row headerRow = sheet.getRow(0);
-		      logger.info(headerRow+"");
-		      for (Cell cell : headerRow) {
-		        String header = cell.getStringCellValue();
-		        if (header.contains(year) && header.contains("Min")) {
-		          estimationMinIndex = cell.getColumnIndex();
-		        } else if (header.contains(year) && header.contains("Max")) {
-		          estimationMaxIndex = cell.getColumnIndex();
-		        } else if (header.equals(year)) {
-		          yearIndex = cell.getColumnIndex();
-		        }
-		      }
-
-		      if (estimationMinIndex == -1 || estimationMaxIndex == -1 || yearIndex == -1) {
-		        throw new IllegalStateException("Year " + year + " not found in header");
-		      }
-
-		      for (Row row : sheet) {
-		        if (row.getRowNum() == 0) {
-		          continue; // skip header row
-		        }
-		        Cell stateCell = row.getCell(0);
-		        String state = stateCell.getStringCellValue();
-		        Cell yearCell = row.getCell(yearIndex);
-		        if (yearCell == null) {
-		          continue; // skip rows with no data for the given year
-		        }
-		        int yearValue = (int) yearCell.getNumericCellValue();
-		        int estimationMin = (int) row.getCell(estimationMinIndex).getNumericCellValue();
-		        int estimationMax = (int) row.getCell(estimationMaxIndex).getNumericCellValue();
-		        logger.info(yearValue +" " +estimationMin+ " "+estimationMax );
-		        yearData.put(state + "_min", estimationMin);
-		        yearData.put(state + "_max", estimationMax);
-		        yearData.put(state + "_" + year, yearValue);
-		      }
-
-		      workbook.close();
-		      excelFile.close();
-
-		    } catch (IOException e) {
-		      e.printStackTrace();
-		    }
-		 
+//	@GetMapping("/trends/{year}")
+//	public ResponseEntity<?> trendData(@PathVariable String year) throws IOException {
+//		 List<JSONObject> jsonList = new ArrayList<>();
+//		 
+//		 Map<String, Integer> yearData = new HashMap<>();
+//		    try {
+//		      FileInputStream excelFile = new FileInputStream("April_2023.xlsx");
+//		      XSSFWorkbook workbook = new XSSFWorkbook(excelFile);
+//		      Sheet sheet = workbook.getSheetAt(0);
+//
+//		      int estimationMinIndex = -1, estimationMaxIndex = -1, yearIndex = -1;
+//		      Row headerRow = sheet.getRow(0);
+//		      logger.info(headerRow+"");
+//		      for (Cell cell : headerRow) {
+//		        String header = cell.getStringCellValue();
+//		        if (header.contains(year) && header.contains("Min")) {
+//		          estimationMinIndex = cell.getColumnIndex();
+//		        } else if (header.contains(year) && header.contains("Max")) {
+//		          estimationMaxIndex = cell.getColumnIndex();
+//		        } else if (header.equals(year)) {
+//		          yearIndex = cell.getColumnIndex();
+//		        }
+//		      }
+//
+//		      if (estimationMinIndex == -1 || estimationMaxIndex == -1 || yearIndex == -1) {
+//		        throw new IllegalStateException("Year " + year + " not found in header");
+//		      }
+//
+//		      for (Row row : sheet) {
+//		        if (row.getRowNum() == 0) {
+//		          continue; // skip header row
+//		        }
+//		        Cell stateCell = row.getCell(0);
+//		        String state = stateCell.getStringCellValue();
+//		        Cell yearCell = row.getCell(yearIndex);
+//		        if (yearCell == null) {
+//		          continue; // skip rows with no data for the given year
+//		        }
+//		        int yearValue = (int) yearCell.getNumericCellValue();
+//		        int estimationMin = (int) row.getCell(estimationMinIndex).getNumericCellValue();
+//		        int estimationMax = (int) row.getCell(estimationMaxIndex).getNumericCellValue();
+//		        logger.info(yearValue +" " +estimationMin+ " "+estimationMax );
+//		        yearData.put(state + "_min", estimationMin);
+//		        yearData.put(state + "_max", estimationMax);
+//		        yearData.put(state + "_" + year, yearValue);
+//		      }
+//
+//		      workbook.close();
+//		      excelFile.close();
+//
+//		    } catch (IOException e) {
+//		      e.printStackTrace();
+//		    }
+//		 
 //		 try {
 //	            FileInputStream file = new FileInputStream(new File("April_2023.xlsx"));
 //	            Workbook workbook = new XSSFWorkbook(file);
@@ -196,11 +197,11 @@ public class NPHOController {
 //	        } catch (IOException e) {
 //	            e.printStackTrace();
 //	        }	
-		 return ResponseEntity.ok(null);
-	    }
-
-	  }
-		 
+//		 return ResponseEntity.ok(null);
+//	    }
+//
+//	  }
+		 																																															
 		 
 		 
 //		try {
