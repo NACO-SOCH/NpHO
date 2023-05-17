@@ -114,6 +114,16 @@ public class ServiceUptake {
     private String hepCReactiveLinkedForTreatmentFemale;
     private String hepCReactiveLinkedForTreatmentTransgender;
     private String hepCReactiveLinkedForTreatmentTotal;
+    
+    private byte campDataId;
+    
+	public byte getCampDataId() {
+		return campDataId;
+	}
+	public void setCampDataId(byte campDataId) {
+		this.campDataId = campDataId;
+	}
+	
 	public String getGeneralHealthCheckupMale() {
 		return generalHealthCheckupMale;
 	}
