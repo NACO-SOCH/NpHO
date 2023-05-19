@@ -64,6 +64,10 @@ public class STISyndrome {
     private String otherSTIsTotal;
     private String otherSTIsTreated;
 
+
+	private Integer campDataId;
+	
+	private Long serviceExt;
 //    private String totalMale;
 //    private String totalFemale;
 //    private String totalTGTS;
@@ -78,6 +82,21 @@ public class STISyndrome {
 //	public void setVcdMale(String vcdMale) {
 //		this.vcdMale = vcdMale;
 //	}
+	
+	
+
+    public Integer getCampDataId() {
+		return campDataId;
+	}
+	public Long getServiceExt() {
+		return serviceExt;
+	}
+	public void setServiceExt(Long serviceExt) {
+		this.serviceExt = serviceExt;
+	}
+	public void setCampDataId(Integer campDataId) {
+		this.campDataId = campDataId;
+	}
 	public String getVcdFemale() {
 		return vcdFemale;
 	}

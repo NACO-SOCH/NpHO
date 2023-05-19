@@ -7,14 +7,15 @@ import java.util.Date;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonObject;
 
 import gov.naco.soch.npho.model.CampData;
 import gov.naco.soch.npho.model.HealthCamp;
+import gov.naco.soch.npho.model.STISyndrome;
 import gov.naco.soch.npho.model.ServiceUptake;
+import gov.naco.soch.npho.model.UserDTO;
 import gov.naco.soch.repository.OfflineRepository;
 
 import org.slf4j.Logger;
@@ -35,33 +36,52 @@ public class CampDataService {
 	        this.campDataRepository = campDataRepository;
 	    }
 	 
-//	 (@Param("stateName") String stateName, @Param("districtName") String districtName,
-//	            @Param("pocType") String pocType, @Param("campsiteName") String campsiteName,
-//	            @Param("contactNumber") String contactNumber, @Param("campDate") Date campDate,
-//	            @Param("reportDate") Date reportDate);
-//	 
-//	    public Object saveCampData(JsonObject data) {
-//	        CampData campData = parseJsonToCampData(data);
-//	        return campDataRepository.saveCampData(campData.getStateName(), campData.get, null, null, null, null, null); 
-//	    }
-	    
-	    public void saveCampData(HealthCamp healthCamp) {
+	 
+	 
+	 
+	 public UserDTO loginService(String username , String password) {
+		 logger.info(username+" "+password);
+		 String result =campDataRepository.login(username, password);
+		 logger.info(campDataRepository.login(username, password));
+		 String[] parts = result.split(",");
+		 for(String s : parts) {
+			 logger.info(s);
+		 }
+		 UserDTO userDTO = new UserDTO();	 
+		 userDTO.setDistrict(parts[0]);
+		 userDTO.setState(parts[1]);
+		 userDTO.setUserid(parts[2]);
+		 return userDTO;
+	 }
+	 
+	 public int resetPassword(String username , String password, String newPassword) {
+		 return campDataRepository.resetPassword(username, password,newPassword);
+	 }
+	 
+	  public void saveCampData(HealthCamp healthCamp) {
 	        CampData campData = healthCamp.getCampData();
 	        logger.info(campData.getDistrictName()+"");
-	        campDataRepository.insertCampData(
+	         campDataRepository.insertCampData(
 	            campData.getStateName(),
 	            campData.getDistrictName(),
 	            campData.getPocType(),
 	            campData.getCampsiteName(),
+	            campData.getDistrictNodalOfficerName(),
 	            campData.getContactNumber(),
 	            campData.getCampDate(),
-	            campData.getReportDate()
+	            campData.getReportDate(),
+	            campData.getUserId()
 	        ); 
+	         
+//	         Long lastInsertedId = campDataRepository.getLastInsertedId();
+//	         logger.info(lastInsertedId+"");
 	    }
 	    
-	    public void saveServiceUptake(HealthCamp healthCamp) {
-	    	
-
+	    Long lastInsertedId() {
+	    	return campDataRepository.getLastInsertedId();
+	    }
+	    
+	    public void saveServiceUptake(HealthCamp healthCamp, Long lastInsertedId) {
 	        logger.info("inside save Services");
 	    	 ServiceUptake serviceUptake = healthCamp.getServiceUptake();
 	    	 campDataRepository.insertServiceUptake(
@@ -155,10 +175,68 @@ public class CampDataService {
 	    			    serviceUptake.getHepCReactiveLinkedForTreatmentFemale(),
 	    			    serviceUptake.getHepCReactiveLinkedForTreatmentTransgender(),
 	    			    serviceUptake.getHepCReactiveLinkedForTreatmentTotal(),
-	    			    (byte)10
+	    			    lastInsertedId
 	    			);
 	    }
 
+	    Long getServiceExtId() {
+		    	return campDataRepository.getServiceExtId();
+	    }
+	    
+	    public void stiSyndrome(HealthCamp healthCamp, Long lastInsertedId, Long serviceExtId) {
+	        STISyndrome campData = healthCamp.getStiSyndrome();
+	       
+	        campDataRepository.insertSTISyndrome(
+	        		 campData.getVcdFemale(),
+	        		    campData.getVcdTotal(),
+	        		    campData.getVcdTreated(),
+	        		    campData.getGudNonHerpeticMale(),
+	        		    campData.getGudNonHerpeticFemale(),
+	        		    campData.getGudNonHerpeticTGTS(),
+	        		    campData.getGudNonHerpeticTotal(),
+	        		    campData.getGudNonHerpeticTreated(),
+	        		    campData.getGudHerpeticMale(),
+	        		    campData.getGudHerpeticFemale(),
+	        		    campData.getGudHerpeticTGTS(),
+	        		    campData.getGudHerpeticTotal(),
+	        		    campData.getGudHerpeticTreated(),
+	        		    campData.getLapFemale(),
+	        		    campData.getLapTotal(),
+	        		    campData.getLapTreated(),
+	        		    campData.getUdMale(),
+	        		    campData.getUdTGTS(),
+	        		    campData.getUdTotal(),
+	        		    campData.getUdTreated(),
+	        		    campData.getArdMale(),
+	        		    campData.getArdFemale(),
+	        		    campData.getArdTGTS(),
+	        		    campData.getArdTotal(),
+	        		    campData.getArdTreated(),
+	        		    campData.getIbMale(),
+	        		    campData.getIbFemale(),
+	        		    campData.getIbTGTS(),
+	        		    campData.getIbTotal(),
+	        		    campData.getIbTreated(),
+	        		    campData.getSsMale(),
+	        		    campData.getSsTGTS(),
+	        		    campData.getSsTotal(),
+	        		    campData.getSsTreated(),
+	        		    campData.getGenitalWartsMale(),
+	        		    campData.getGenitalWartsFemale(),
+	        		    campData.getGenitalWartsTGTS(),
+	        		    campData.getGenitalWartsTotal(),
+	        		    campData.getGenitalWartsTreated(),
+	        		    campData.getOtherSTIsMale(),
+	        		    campData.getOtherSTIsFemale(),
+	        		    campData.getOtherSTIsTGTS(),
+	        		    campData.getOtherSTIsTotal(),
+	        		    campData.getOtherSTIsTreated(),
+	        		    lastInsertedId,
+	        		    serviceExtId
+	        ); 
+	    }
+	    
+	    
 	    private CampData parseJsonToCampData(JsonObject data) {
 	    	CampData campData = new CampData();
 	    	logger.info(""+data);

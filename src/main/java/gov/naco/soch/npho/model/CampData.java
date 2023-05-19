@@ -47,6 +47,26 @@ public class CampData {
 	    @Column(name = "generated_date")
 	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	    private Date generatedDate;	
+	    
+	    private String districtNodalOfficerName;
+	    
+	    private String userId; 
+	    
+		public String getUserId() {
+			return userId;
+		}
+
+		public void setUserId(String userId) {
+			this.userId = userId;
+		}
+
+		public String getDistrictNodalOfficerName() {
+			return districtNodalOfficerName;
+		}
+
+		public void setDistrictNodalOfficerName(String districtNodalOfficerName) {
+			this.districtNodalOfficerName = districtNodalOfficerName;
+		}
 
 		// Constructor
 	    public CampData() {
