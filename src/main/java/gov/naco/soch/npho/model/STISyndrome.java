@@ -1,3 +1,4 @@
+
 package gov.naco.soch.npho.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;

@@ -52,6 +52,16 @@ public class CampData {
 	    
 	    private String userId; 
 	    
+	    private String guid;
+	    
+		public String getGuid() {
+			return guid;
+		}
+
+		public void setGuid(String guid) {
+			this.guid = guid;
+		}
+
 		public String getUserId() {
 			return userId;
 		}

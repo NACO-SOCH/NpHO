@@ -2,6 +2,7 @@ package gov.naco.soch.npho;
 import gov.naco.soch.npho.model.CampData;
 
 import gov.naco.soch.npho.model.HealthCamp;
+import gov.naco.soch.npho.model.NewHealthCamp;
 import gov.naco.soch.npho.model.UserDTO;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -22,15 +23,18 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 @RestController
 @RequestMapping("/prisonApp")
+@CrossOrigin(origins = "*")
 public class HealthCampController {
 	 
+	@Autowired
+	HealthCampRepository healthCampRepository;
 	
 	@Autowired
     CampDataService campDataService;
@@ -83,13 +87,19 @@ public class HealthCampController {
     
 
 
-    @PostMapping("/Auth")
-    public ResponseEntity<?> login(@RequestBody UserDTO user) {
+    @PostMapping("/Auth1")
+    public ResponseEntity<?> login1(@RequestBody UserDTO user) {
     	logger.info(user.getUserid()+""+user.getUserPassword());
         try {
-            String encodedUsername = Base64.getEncoder().encodeToString(user.getUserid().getBytes());
-           String encodedPassword = Base64.getEncoder().encodeToString(user.getUserPassword().getBytes());
+            byte[] encodedUsernameByte = Base64.getDecoder().decode(user.getUserid());
+            
+            String  encodedUsername = new String(encodedUsernameByte);
+            
+            byte[] encodedPasswordByte = Base64.getDecoder().decode(user.getUserPassword());
            
+            String  encodedPassword = new String(encodedPasswordByte);
+            
+           logger.info(encodedUsername, encodedPassword);
             UserDTO userDTO =  campDataService.loginService(encodedUsername,encodedPassword);
 //            logger.info(campDataService.loginService(user.getUserid(), user.getUserPassword())+"");
             
@@ -105,29 +115,56 @@ public class HealthCampController {
     }
     
     
-    @PostMapping("/dataEntry")
-    public ResponseEntity<String> createHealthCamp(@RequestBody HealthCamp healthCamp) throws IOException {
-    	 try {
-    	      campDataService.saveCampData(healthCamp);
-    	      Long lastInsertedId = campDataService.lastInsertedId();
-    	        campDataService.saveServiceUptake(healthCamp, lastInsertedId);
-    	        Long serviceExtensionId = campDataService.getServiceExtId();
-    	        campDataService.stiSyndrome(healthCamp, lastInsertedId,serviceExtensionId);
-    	        return ResponseEntity.ok().build();
-    	    } catch (Exception e) {
-    	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
-    	    }
-    }
+    @PostMapping("/dataEntry1")
+    public ResponseEntity<String> createHealthCamp1(@RequestBody NewHealthCamp healthCamp) throws IOException {
+    	
+    		String guidString = healthCamp.getCampData().getGuid();
+    		if( guidString.isEmpty() ) {
+    	    	try {
+        		 	UUID guid = UUID.randomUUID();
+        		 	
+        		 	guidString = guid.toString();
+        		 	campDataService.saveCampData(healthCamp,guidString);
+        	        campDataService.saveServiceUptake(healthCamp,guidString);
+        	        campDataService.stiSyndrome(healthCamp, guidString);
+        	        return ResponseEntity.ok().body(guidString.toString());
+        	    } catch (Exception e) {
+        	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
+        	    }
+    		}else {
+    			try {
+    				campDataService.saveServiceUptake(healthCamp,guidString);
+        	        campDataService.stiSyndrome(healthCamp, guidString);
+        	        return ResponseEntity.ok().body(guidString.toString());
+    			}catch(Exception e) {
+    				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
+    			}
+    			
+    		}
+       }
     
     
-  @PutMapping("/resetPassword")
-  public ResponseEntity<String> resetPassword(@RequestBody UserDTO user) {
+  @PutMapping("/resetPassword1")
+  public ResponseEntity<String> resetPassword1(@RequestBody UserDTO user) {
       try {
  
-          String encodedUsername = Base64.getEncoder().encodeToString(user.getUserid().getBytes());
-          String encodedCurrentPassword = Base64.getEncoder().encodeToString(user.getUserPassword().getBytes());
+    	  
+    	  byte[] encodedUsernameByte = Base64.getDecoder().decode(user.getUserid());
+          String  encodedUsername = new String(encodedUsernameByte);
+      
+          logger.info(encodedUsername);
+          byte[] encodedPasswordByte = Base64.getDecoder().decode(user.getUserPassword());
+          String  encodedCurrentPassword = new String(encodedPasswordByte);
+    	  
           
-          if (campDataService.resetPassword(encodedUsername,encodedCurrentPassword, user.getNewPassword()) > 0) {
+          byte[] encodedNewPasswordByte = Base64.getDecoder().decode(user.getNewPassword());
+          String  encodednewPassword = new String(encodedNewPasswordByte);
+          
+//          logger.info(encodedUsername);
+//          logger.info(encodedCurrentPassword);
+//          logger.info(encodednewPassword);
+          
+          if (campDataService.resetPassword(encodedUsername,encodedCurrentPassword, encodednewPassword) > 0) {
         	  return ResponseEntity.status(HttpStatus.ACCEPTED).body("Success");
           }else {
         	   return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid current password or username!!");
@@ -141,107 +178,111 @@ public class HealthCampController {
   }
  
     
+  @GetMapping("/getData")
+  public ResponseEntity<?> getData(){
+	     List<NewHealthCamp> healthCamps = campDataService.getAllData();
+	     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+  }
     
     
-//    @PostMapping("/dataEntry")
-//    public HealthCamp createHealthCamp(@RequestBody HealthCamp healthCamp) throws IOException {
-//
-//        HealthCamp savedHealthCamp = healthCampRepository.save(healthCamp);
-//
-//        // Read the existing JSON data from the file into a List<HealthCamp>
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        File file = new File("health-camps.json");
-//        List<HealthCamp> allHealthCamps = new ArrayList<>();
-//        if (file.exists()) {
-//            if (file.length() > 0) {
-//                allHealthCamps = objectMapper.readValue(file, new TypeReference<List<HealthCamp>>() {});
-//            } else {
-//
-//                allHealthCamps = new ArrayList<>();
-//            }
-//        }
-//
-//        allHealthCamps.add(healthCamp);
-//        String json = objectMapper.writeValueAsString(allHealthCamps);
-//
-//        FileWriter fileWriter = new FileWriter(file);
-//        fileWriter.write(json);
-//        fileWriter.flush();
-//        fileWriter.close();
-//
-//        return savedHealthCamp;
-//    }
+    @PostMapping("/dataEntry")
+    public HealthCamp createHealthCamp(@RequestBody HealthCamp healthCamp) throws IOException {
+    	
+    	logger.info(healthCamp+"");
+        HealthCamp savedHealthCamp = healthCampRepository.save(healthCamp);
+        ObjectMapper objectMapper = new ObjectMapper();
+        File file = new File("health-camps.json");
+        List<HealthCamp> allHealthCamps = new ArrayList<>();
+        if (file.exists()) {
+            if (file.length() > 0) {
+                allHealthCamps = objectMapper.readValue(file, new TypeReference<List<HealthCamp>>() {});
+            } else {
+
+                allHealthCamps = new ArrayList<>();
+            }
+        }
+
+        allHealthCamps.add(healthCamp);
+        String json = objectMapper.writeValueAsString(allHealthCamps);
+
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write(json);
+        fileWriter.flush();
+        fileWriter.close();
+
+        return savedHealthCamp;
+    }
 
     
-//    @PutMapping("/resetPassword")
-//    public ResponseEntity<String> resetPassword(@RequestParam String userName, @RequestParam String currentPassword, @RequestParam String newPassword) throws IOException {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        try {
-//            File file = ResourceUtils.getFile("Users.json");
-//            List<User> users = objectMapper.readValue(file, new TypeReference<List<User>>(){});
-//
-//            String encodedUsername = Base64.getEncoder().encodeToString(userName.getBytes());
-//            String encodedCurrentPassword = null;
-//            if (currentPassword != null) {
-//                encodedCurrentPassword = Base64.getEncoder().encodeToString(currentPassword.getBytes());
-//            }
-//            String encodedNewPassword = null;
-//            if (newPassword != null) {
-//                encodedNewPassword = Base64.getEncoder().encodeToString(newPassword.getBytes());
-//            }
-//
-//            for (User user : users) {
-//                String storedUsername = Base64.getEncoder().encodeToString(user.getUsername().getBytes());
-//                String storedCurrentPassword = Base64.getEncoder().encodeToString(user.getPassword().getBytes());
-//
-//                if (storedUsername.equals(encodedUsername) && storedCurrentPassword.equals(encodedCurrentPassword)) {
-//                    if (newPassword != null) {
-//                        user.setPassword(newPassword);
-//                    }
-//                    String json =   objectMapper.writer().withoutAttribute("newPassword").writeValueAsString(users);  // objectMapper.writeValueAsString(users);
-//                    FileWriter fileWriter = new FileWriter(file);
-//                    fileWriter.write(json);
-//                    fileWriter.flush();
-//                    fileWriter.close();
-//                    return ResponseEntity.ok("Password updated successfully!");
-//                }
-//            }
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid current password!!");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+    @PutMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestParam String userName, @RequestParam String currentPassword, @RequestParam String newPassword) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            File file = ResourceUtils.getFile("Users.json");
+            List<User> users = objectMapper.readValue(file, new TypeReference<List<User>>(){});
+
+            String encodedUsername = Base64.getEncoder().encodeToString(userName.getBytes());
+            String encodedCurrentPassword = null;
+            if (currentPassword != null) {
+                encodedCurrentPassword = Base64.getEncoder().encodeToString(currentPassword.getBytes());
+            }
+            String encodedNewPassword ;
+            if (newPassword != null) {
+                encodedNewPassword = Base64.getEncoder().encodeToString(newPassword.getBytes());
+            }
+
+            for (User user : users) {
+                String storedUsername = Base64.getEncoder().encodeToString(user.getUsername().getBytes());
+                String storedCurrentPassword = Base64.getEncoder().encodeToString(user.getPassword().getBytes());
+
+                if (storedUsername.equals(encodedUsername) && storedCurrentPassword.equals(encodedCurrentPassword)) {
+                    if (newPassword != null) {
+                        user.setPassword(newPassword);
+                    }
+                    String json =   objectMapper.writer().withoutAttribute("newPassword").writeValueAsString(users);  // objectMapper.writeValueAsString(users);
+                    FileWriter fileWriter = new FileWriter(file);
+                    fileWriter.write(json);
+                    fileWriter.flush();
+                    fileWriter.close();
+                    return ResponseEntity.ok("Password updated successfully!");
+                }
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid current password!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
    
     
 
     
     
 
-//
-//    @PostMapping("/Auth")
-//    public ResponseEntity<?> login(@RequestBody User user) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        try {
-//            File file = ResourceUtils.getFile("Users.json");
-//            List<User> users = objectMapper.readValue(file, new TypeReference<List<User>>(){});
-//
-//            String encodedUsername = Base64.getEncoder().encodeToString(user.getUsername().getBytes());
-//            String encodedPassword = Base64.getEncoder().encodeToString(user.getPassword().getBytes());
-//
-//            for (User u : users) {
-//                String storedUsername = Base64.getEncoder().encodeToString(u.getUsername().getBytes());
-//                String storedPassword = Base64.getEncoder().encodeToString(u.getPassword().getBytes());
-//                if (storedUsername.equals(encodedUsername) && storedPassword.equals(encodedPassword)) {
-//                    return ResponseEntity.ok("Login successfull!!");
-//                }
-//            }
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password!!");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//    }
+
+    @PostMapping("/Auth")
+    public ResponseEntity<?> login(@RequestBody User user) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            File file = ResourceUtils.getFile("Users.json");
+            List<User> users = objectMapper.readValue(file, new TypeReference<List<User>>(){});
+
+            String encodedUsername = Base64.getEncoder().encodeToString(user.getUsername().getBytes());
+            String encodedPassword = Base64.getEncoder().encodeToString(user.getPassword().getBytes());
+
+            for (User u : users) {
+                String storedUsername = Base64.getEncoder().encodeToString(u.getUsername().getBytes());
+                String storedPassword = Base64.getEncoder().encodeToString(u.getPassword().getBytes());
+                if (storedUsername.equals(encodedUsername) && storedPassword.equals(encodedPassword)) {
+                    return ResponseEntity.ok("Login successfull!!");
+                }
+            }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password!!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     
    
 

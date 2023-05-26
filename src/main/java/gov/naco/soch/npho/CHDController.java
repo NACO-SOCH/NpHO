@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import gov.naco.soch.npho.model.CHDintData;
+
 @RestController
 @RequestMapping("/chd")
 public class CHDController {
@@ -74,6 +76,37 @@ public class CHDController {
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
+    @GetMapping("dataInt/{date}")
+    public ResponseEntity<List<CHDintData>> getCHDDataByDateInt(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        List<CHDintData> chdDataList;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+            chdDataList = objectMapper.readValue(new File(CHD_FILE_PATH), new TypeReference<List<CHDintData>>() {});
+
+            // Convert string values to int
+            for (CHDintData chdData : chdDataList) {
+                chdData.setTesting(chdData.getTesting());
+                chdData.setPlhiv(chdData.getPlhiv());
+                chdData.setViralLoad(chdData.getViralLoad());
+                chdData.setStateCode(chdData.getStateCode() != 0 ? chdData.getStateCode() : 0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        List<CHDintData> chdData = chdDataList.stream()
+                .filter(data -> data.getDate().equals(date)).collect(Collectors.toList());
+
+        if (chdData == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(chdData);
         }
     }
     
