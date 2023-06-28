@@ -86,6 +86,23 @@ public class CampDataService {
 	         
 	    }
 	  
+	  public void updateCampData(NewHealthCamp healthCamp, String guid) {
+	        CampData campData = healthCamp.getCampData();
+	        	prisonRepo.updateCampData(
+	            campData.getStateName(),
+	            campData.getDistrictName(),
+	            campData.getPocType(),
+	            campData.getCampsiteName(),
+	            campData.getDistrictNodalOfficerName(),
+	            campData.getContactNumber(),
+	            campData.getCampDate(),
+	            campData.getReportDate(),
+	            campData.getUserId(),
+	            guid,
+	            campData.getGeneratedDate()
+	        );        
+	    }
+	  
 	  public List<NewHealthCamp> getAllData() {
 		  
 		  List<Object[]> dataList = prisonRepo.getAllData();
@@ -101,10 +118,14 @@ public class CampDataService {
 			    campData.setCampsiteName(data[4] != null ? (String) data[4] : null);
 			    campData.setDistrictNodalOfficerName(data[5] != null ? (String) data[5] : null);
 			    campData.setContactNumber(data[6] != null ? (String) data[6] : null);
+
 			    campData.setCampDate(data[7] != null ? (Date) data[7] : null);
 			    campData.setReportDate(data[8] != null ? (Date) data[8] : null);
-			    campData.setUserId(data[9] != null ? (String) data[9] : null);
-			    campData.setGeneratedDate(data[154] != null ? (Date) data[154] : null);
+			    
+			    campData.setUserId(data[9] != null ? (String) data[9] : null);        
+			    
+			    campData.setGeneratedDate(data[154] != null ? (Date) data[154] : null); 
+			    
 			    campData.setGuid(data[153] != null ? (String) data[153] : null);
 			    
 			    NewServiceUptake serviceUptake = new NewServiceUptake();
@@ -441,7 +462,14 @@ public class CampDataService {
 //	    	   System.out.println(e.printStackTrace());
 	    	   logger.info(e.getMessage());
 	       }
-
+	    }
+	    
+	    public List<Object[]> getMPRData(String district, String artc_name, Integer mpr_month, Integer mpr_year, String stateName) {
+	           return prisonRepo.getAllDataMPR(district, artc_name,  mpr_month,  mpr_year, stateName);
+	       }
+	    
+	    public void deleteData(Integer id) {
+	    	  prisonRepo.deleteData(id);
 	    }
 	    
 	    

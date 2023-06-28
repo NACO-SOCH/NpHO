@@ -37,15 +37,15 @@ public class CampData {
 	    private String contactNumber;
 
 	    @Column(name = "camp_date")
-	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Asia/Kolkata")
 	    private Date campDate;
 
 	    @Column(name = "report_date")
-	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Asia/Kolkata")
 	    private Date reportDate;
 	    
 	    @Column(name = "generated_date")
-	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Asia/Kolkata")
 	    private Date generatedDate;	
 	    
 	    private String districtNodalOfficerName;

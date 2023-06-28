@@ -133,6 +133,7 @@ public class HealthCampController {
         	    }
     		}else {
     			try {
+    				campDataService.updateCampData(healthCamp,guidString);
     				campDataService.saveServiceUptake(healthCamp,guidString);
         	        campDataService.stiSyndrome(healthCamp, guidString);
         	        return ResponseEntity.ok().body(guidString.toString());
@@ -254,12 +255,6 @@ public class HealthCampController {
         }
     }
    
-    
-
-    
-    
-
-
     @PostMapping("/Auth")
     public ResponseEntity<?> login(@RequestBody User user) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -284,6 +279,19 @@ public class HealthCampController {
         }
     }
     
+    // DELETE /api/resource/{id}
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteResource(@RequestParam("id") Integer id) {
+    	campDataService.deleteData(id);
+        return ResponseEntity.ok("Resource deleted successfully");
+    }
+    
+    
+    @GetMapping("/getMPR")
+    public ResponseEntity<?> getMPR(@RequestParam String district,@RequestParam String artcName,@RequestParam Integer mprMonth,@RequestParam Integer mprYear, @RequestParam String stateName){
+    	List<Object[]> healthCamps = campDataService.getMPRData(district.toUpperCase(),  artcName,  mprMonth,  mprYear, stateName);
+  	     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+    }
    
 
 
