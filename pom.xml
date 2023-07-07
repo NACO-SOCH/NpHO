@@ -17,9 +17,6 @@
 	  <packaging>war</packaging>
 	  <name>soch-npho-microservices</name>
 	  
-	  
-	  
-	  
 	  <dependencies>  
 	  <dependency>
 	    <groupId>com.google.code.gson</groupId>

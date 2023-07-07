@@ -280,7 +280,7 @@ public class HealthCampController {
     }
     
     // DELETE /api/resource/{id}
-    @PostMapping("/delete")
+    @PutMapping("/delete")
     public ResponseEntity<String> deleteResource(@RequestParam("id") Integer id) {
     	campDataService.deleteData(id);
         return ResponseEntity.ok("Resource deleted successfully");

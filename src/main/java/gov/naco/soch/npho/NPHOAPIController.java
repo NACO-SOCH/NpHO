@@ -35,7 +35,7 @@ import org.springframework.http.MediaType;
 public class NPHOAPIController {
 	
 //	private final String NPHO_FILE_PATH = "Nphodata.json";
-	private final String CHD_FILE_PATH = "chd.json";
+	private final String CHD_FILE_PATH = "chddata.json";
     private static final Logger logger = Logger.getLogger(NPHOAPIController.class.getName());
 
 	@XSecretAuthorizeAttribute

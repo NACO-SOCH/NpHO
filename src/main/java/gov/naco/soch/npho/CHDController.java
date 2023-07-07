@@ -27,7 +27,7 @@ import gov.naco.soch.npho.model.CHDintData;
 @RestController
 @RequestMapping("/chd")
 public class CHDController {
-    private final String CHD_FILE_PATH = "chd.json";
+    private final String CHD_FILE_PATH = "chddata.json";
     
     @GetMapping("data/{date}")
     public ResponseEntity<List<CHDData>> getCHDDataByDate(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
