@@ -54,6 +54,12 @@ public class HealthCampController {
         return healthCamps;
     }
     
+    @GetMapping("/getUserData")
+    public ResponseEntity<?> getUserData(@RequestParam String userid){
+    	List<NewHealthCamp> healthCamps = campDataService.getUserData(userid);
+    	return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+    }
+    
     @GetMapping("/healthCampData")
     public List<HealthCamp> getHealthCampsByState(@RequestParam("state") String state) {
         List<HealthCamp> healthCampsByState = new ArrayList<>();
@@ -179,10 +185,24 @@ public class HealthCampController {
   }
  
     
+//  @GetMapping("/getData")
+//  public ResponseEntity<?> getData(){
+//	     List<NewHealthCamp> healthCamps = campDataService.getAllData();
+//	     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+//  }
   @GetMapping("/getData")
-  public ResponseEntity<?> getData(){
-	     List<NewHealthCamp> healthCamps = campDataService.getAllData();
-	     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+  public ResponseEntity<?> getData(@RequestParam(required = false) String stateName) {
+      List<NewHealthCamp> healthCamps;
+
+      if (stateName == null || stateName.isEmpty()) {
+          // Call method to get all data when stateName is null
+          healthCamps = campDataService.getAllData();
+      } else {
+          // Call method to get state-specific data when stateName is provided
+          healthCamps = campDataService.getStateData(stateName);
+      }
+
+      return new ResponseEntity<>(healthCamps, HttpStatus.OK);
   }
     
     
@@ -279,7 +299,7 @@ public class HealthCampController {
         }
     }
     
-    // DELETE /api/resource/{id}
+
     @PutMapping("/delete")
     public ResponseEntity<String> deleteResource(@RequestParam("id") Integer id) {
     	campDataService.deleteData(id);
@@ -292,6 +312,8 @@ public class HealthCampController {
     	List<Object[]> healthCamps = campDataService.getMPRData(district.toUpperCase(),  artcName,  mprMonth,  mprYear, stateName);
   	     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
     }
+    
+    
    
 
 
