@@ -110,7 +110,7 @@ public class HealthCampController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Invalid username or password!!");
         }
     }
     
@@ -179,12 +179,19 @@ public class HealthCampController {
   }
  
     
-  @GetMapping("/getData")
-  public ResponseEntity<?> getData(){
-	     List<NewHealthCamp> healthCamps = campDataService.getAllData();
-	     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
-  }
-    
+	  @GetMapping("/getData")
+	  public ResponseEntity<?> getData(){
+		     List<NewHealthCamp> healthCamps = campDataService.getAllData();
+		     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+	  }
+	  
+	  
+	  @GetMapping("/getUserData")
+	  public ResponseEntity<?> getUserData(@RequestParam String userid){
+		     List<NewHealthCamp> healthCamps = campDataService.getUserData(userid);
+		     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+	  }
+	    
     
     @PostMapping("/dataEntry")
     public HealthCamp createHealthCamp(@RequestBody HealthCamp healthCamp) throws IOException {

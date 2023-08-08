@@ -286,6 +286,190 @@ public class CampDataService {
 
 	        return healthCamps;
 	    }
+	  
+	  public List<NewHealthCamp> getUserData(String userid) {
+		  
+		  List<Object[]> dataList = prisonRepo.getUserData(userid);
+		  
+		  List<NewHealthCamp> healthCamps = new ArrayList<>();
+		  for (Object[] data : dataList) {
+			  
+			    CampData campData = new CampData();
+			    campData.setId(data[0] != null ? ((Integer) data[0]).longValue() : null);
+			    campData.setStateName(data[1] != null ? (String) data[1] : null);
+			    campData.setDistrictName(data[2] != null ? (String) data[2] : null);
+			    campData.setPocType(data[3] != null ? (String) data[3] : null);
+			    campData.setCampsiteName(data[4] != null ? (String) data[4] : null);
+			    campData.setDistrictNodalOfficerName(data[5] != null ? (String) data[5] : null);
+			    campData.setContactNumber(data[6] != null ? (String) data[6] : null);
+
+			    campData.setCampDate(data[7] != null ? (Date) data[7] : null);
+			    campData.setReportDate(data[8] != null ? (Date) data[8] : null);
+			    
+			    campData.setUserId(data[9] != null ? (String) data[9] : null);        
+			    
+			    campData.setGeneratedDate(data[154] != null ? (Date) data[154] : null); 
+			    
+			    campData.setGuid(data[153] != null ? (String) data[153] : null);
+			    
+			    NewServiceUptake serviceUptake = new NewServiceUptake();
+			    serviceUptake.setGeneralHealthCheckupMale(data[10] != null ? (Integer) data[10] : null);
+			    serviceUptake.setGeneralHealthCheckupFemale(data[11] != null ? (Integer) data[11] : null);
+			    serviceUptake.setGeneralHealthCheckupTransgender(data[12] != null ? (Integer) data[12] : null);
+			    serviceUptake.setGeneralHealthCheckupTotal(data[13] != null ? (Integer) data[13] : null);
+			    serviceUptake.setAntenatalCheckupFemale(data[14] != null ? (Integer) data[14] : null);
+			    serviceUptake.setAntenatalCheckupTotal(data[15] != null ? (Integer) data[15] : null);
+			    serviceUptake.setStiCheckupMale(data[16] != null ? (Integer) data[16] : null);
+			    serviceUptake.setStiCheckupFemale(data[17] != null ? (Integer) data[17] : null);
+			    serviceUptake.setStiCheckupTransgender(data[18] != null ? (Integer) data[18] : null);
+			    serviceUptake.setStiCheckupTotal(data[19] != null ? (Integer) data[19] : null);
+			    serviceUptake.setStiDiagnosedMale(data[20] != null ? (Integer) data[20] : null);
+			    serviceUptake.setStiDiagnosedFemale(data[21] != null ? (Integer) data[21] : null);
+			    serviceUptake.setStiDiagnosedTransgender(data[22] != null ? (Integer) data[22] : null);
+			    serviceUptake.setStiDiagnosedTotal(data[23] != null ? (Integer) data[23] : null);
+			    serviceUptake.setStiTreatedMale(data[24] != null ? (Integer) data[24] : null);
+			    serviceUptake.setStiTreatedFemale(data[25] != null ? (Integer) data[25] : null);
+			    serviceUptake.setStiTreatedTransgender(data[26] != null ? (Integer) data[26] : null);
+			    serviceUptake.setStiTreatedTotal(data[27] != null ? (Integer) data[27] : null);
+			    serviceUptake.setHivScreenedMale(data[28] != null ? (Integer) data[28] : null);
+			    serviceUptake.setHivScreenedFemale(data[29] != null ? (Integer) data[29] : null);
+			    serviceUptake.setHivScreenedTransgender(data[30] != null ? (Integer) data[30] : null);
+			    serviceUptake.setHivScreenedTotal(data[31] != null ? (Integer) data[31] : null);
+			    serviceUptake.setHivReactiveMale(data[32] != null ? (Integer) data[32] : null);
+			    serviceUptake.setHivReactiveFemale(data[33] != null ? (Integer) data[33] : null);
+			    serviceUptake.setHivReactiveTransgender(data[34] != null ? (Integer) data[34] : null);
+			    serviceUptake.setHivReactiveTotal(data[35] != null ? (Integer) data[35] : null);
+			    serviceUptake.setHivConfirmedPositiveMale(data[36] != null ? (Integer) data[36] : null);
+			    serviceUptake.setHivConfirmedPositiveFemale(data[37] != null ? (Integer) data[37] : null);
+			    serviceUptake.setHivConfirmedPositiveTransgender(data[38] != null ? (Integer) data[38] : null);
+			    serviceUptake.setHivConfirmedPositiveTotal(data[39] != null ? (Integer) data[39] : null);
+			    serviceUptake.setHivPositiveLinkedToArtMale(data[40] != null ? (Integer) data[40] : null);
+			    serviceUptake.setHivPositiveLinkedToArtFemale(data[41] != null ? (Integer) data[41] : null);
+			    serviceUptake.setHivPositiveLinkedToArtTransgender(data[42] != null ? (Integer) data[42] : null);
+			    serviceUptake.setHivPositiveLinkedToArtTotal(data[43] != null ? (Integer) data[43] : null);
+			    serviceUptake.setSyphilisScreenedMale(data[44] != null ? (Integer) data[44] : null);
+			    serviceUptake.setSyphilisScreenedFemale(data[45] != null ? (Integer) data[45] : null);
+			    serviceUptake.setSyphilisScreenedTransgender(data[46] != null ? (Integer) data[46] : null);
+			    serviceUptake.setSyphilisScreenedTotal(data[47] != null ? (Integer) data[47] : null);
+			    serviceUptake.setSyphilisReactiveMale(data[48] != null ? (Integer) data[48] : null);
+			    serviceUptake.setSyphilisReactiveFemale(data[49] != null ? (Integer) data[49] : null);
+			    serviceUptake.setSyphilisReactiveTransgender(data[50] != null ? (Integer) data[50] : null);
+			    serviceUptake.setSyphilisReactiveTotal(data[51] != null ? (Integer) data[51] : null);
+			    serviceUptake.setSyphilisTreatedMale(data[52] != null ? (Integer) data[52] : null);
+			    serviceUptake.setSyphilisTreatedFemale(data[53] != null ? (Integer) data[53] : null);
+			    serviceUptake.setSyphilisTreatedTransgender(data[54] != null ? (Integer) data[54] : null);
+			    serviceUptake.setSyphilisTreatedTotal(data[55] != null ? (Integer) data[55] : null);
+			    serviceUptake.setTbScreenedMale(data[56] != null ? (Integer) data[56] : null);
+			    serviceUptake.setTbScreenedFemale(data[57] != null ? (Integer) data[57] : null);
+			    serviceUptake.setTbScreenedTransgender(data[58] != null ? (Integer) data[58] : null);
+			    serviceUptake.setTbScreenedTotal(data[59] != null ? (Integer) data[59] : null);
+			    serviceUptake.setTbSuspectedMale(data[60] != null ? (Integer) data[60] : null);
+			    serviceUptake.setTbSuspectedFemale(data[61] != null ? (Integer) data[61] : null);
+			    serviceUptake.setTbSuspectedTransgender(data[62] != null ? (Integer) data[62] : null);
+			    serviceUptake.setTbSuspectedTotal(data[63] != null ? (Integer) data[63] : null);
+			    serviceUptake.setTbTestedMale(data[64] != null ? (Integer) data[64] : null);
+			    serviceUptake.setTbTestedFemale(data[65] != null ? (Integer) data[65] : null);
+			    serviceUptake.setTbTestedTransgender(data[66] != null ? (Integer) data[66] : null);
+			    serviceUptake.setTbTestedTotal(data[67] != null ? (Integer) data[67] : null);
+			    serviceUptake.setTbPositiveMale(data[68] != null ? (Integer) data[68] : null);
+			    serviceUptake.setTbPositiveFemale(data[69] != null ? (Integer) data[69] : null);
+			    serviceUptake.setTbPositiveTransgender(data[70] != null ? (Integer) data[70] : null);
+			    serviceUptake.setTbPositiveTotal(data[71] != null ? (Integer) data[71] : null);
+			    serviceUptake.setTbPositivePutOnDotsMale(data[72] != null ? (Integer) data[72] : null);
+			    serviceUptake.setTbPositivePutOnDotsFemale(data[73] != null ? (Integer) data[73] : null);
+			    serviceUptake.setTbPositivePutOnDotsTransgender(data[74] != null ? (Integer) data[74] : null);
+			    serviceUptake.setTbPositivePutOnDotsTotal(data[75] != null ? (Integer) data[75] : null);
+			    serviceUptake.setScreenedForHepBMale(data[76] != null ? (Integer) data[76] : null);
+			    serviceUptake.setScreenedForHepBFemale(data[77] != null ? (Integer) data[77] : null);
+			    serviceUptake.setScreenedForHepBTransgender(data[78] != null ? (Integer) data[78] : null);
+			    serviceUptake.setScreenedForHepBTotal(data[79] != null ? (Integer) data[79] : null);
+			    serviceUptake.setHepBReactiveMale(data[80] != null ? (Integer) data[80] : null);
+			    serviceUptake.setHepBReactiveFemale(data[81] != null ? (Integer) data[81] : null);
+			    serviceUptake.setHepBReactiveTransgender(data[82] != null ? (Integer) data[82] : null);
+			    serviceUptake.setHepBReactiveTotal(data[83] != null ? (Integer) data[83] : null);
+			    serviceUptake.setHepBReactiveLinkedForTreatmentMale(data[84] != null ? (Integer) data[84] : null);
+			    serviceUptake.setHepBReactiveLinkedForTreatmentFemale(data[85] != null ? (Integer) data[85] : null);
+			    serviceUptake.setHepBReactiveLinkedForTreatmentTransgender(data[86] != null ? (Integer) data[86] : null);
+			    serviceUptake.setHepBReactiveLinkedForTreatmentTotal(data[87] != null ? (Integer) data[87] : null);
+			    serviceUptake.setHepBPositivePutOnTreatmentMale(data[88] != null ? (Integer) data[88] : null);
+			    serviceUptake.setHepBPositivePutOnTreatmentFemale(data[89] != null ? (Integer) data[89] : null);
+			    serviceUptake.setHepBPositivePutOnTreatmentTransgender(data[90] != null ? (Integer) data[90] : null);
+			    serviceUptake.setHepBPositivePutOnTreatmentTotal(data[91] != null ? (Integer) data[91] : null);
+			    serviceUptake.setScreenedForHepCMale(data[92] != null ? (Integer) data[92] : null);
+			    serviceUptake.setScreenedForHepCFemale(data[93] != null ? (Integer) data[93] : null);
+			    serviceUptake.setScreenedForHepCTransgender(data[94] != null ? (Integer) data[94] : null);
+			    serviceUptake.setScreenedForHepCTotal(data[95] != null ? (Integer) data[95] : null);
+			    serviceUptake.setHepCReactiveMale(data[96] != null ? (Integer) data[96] : null);
+			    serviceUptake.setHepCReactiveFemale(data[97] != null ? (Integer) data[97] : null);
+			    serviceUptake.setHepCReactiveTransgender(data[98] != null ? (Integer) data[98] : null);
+			    serviceUptake.setHepCReactiveTotal(data[99] != null ? (Integer) data[99] : null);
+			    serviceUptake.setHepCReactiveLinkedForTreatmentMale(data[100] != null ? (Integer) data[100] : null);
+			    serviceUptake.setHepCReactiveLinkedForTreatmentFemale(data[101] != null ? (Integer) data[101] : null);
+			    serviceUptake.setHepCReactiveLinkedForTreatmentTransgender(data[102] != null ? (Integer) data[102] : null);
+			    serviceUptake.setHepCReactiveLinkedForTreatmentTotal(data[103] != null ? (Integer) data[103] : null);
+			    serviceUptake.setHepCPositivePutOnTreatmentMale(data[104] != null ? (Integer) data[104] : null);
+			    serviceUptake.setHepCPositivePutOnTreatmentFemale(data[105] != null ? (Integer) data[105] : null);
+			    serviceUptake.setHepCPositivePutOnTreatmentTransgender(data[106] != null ? (Integer) data[106] : null);
+			    serviceUptake.setHepCPositivePutOnTreatmentTotal(data[107] != null ? (Integer) data[107] : null);
+			    
+			    
+			    NewSTISyndromeDTO stiSyndrome = new NewSTISyndromeDTO();
+			    stiSyndrome.setVcdFemale(data[108] != null ? ((Integer) data[108]).intValue() : null);
+			    stiSyndrome.setVcdTotal(data[109] != null ? ((Integer) data[109]).intValue() : null);
+			    stiSyndrome.setVcdTreated(data[110] != null ? ((Integer) data[110]).intValue() : null);
+			    stiSyndrome.setGudNonHerpeticMale(data[111] != null ? ((Integer) data[111]).intValue() : null);
+			    stiSyndrome.setGudNonHerpeticFemale(data[112] != null ? ((Integer) data[112]).intValue() : null);
+			    stiSyndrome.setGudNonHerpeticTGTS(data[113] != null ? ((Integer) data[113]).intValue() : null);
+			    stiSyndrome.setGudNonHerpeticTotal(data[114] != null ? ((Integer) data[114]).intValue() : null);
+			    stiSyndrome.setGudNonHerpeticTreated(data[115] != null ? ((Integer) data[115]).intValue() : null);
+			    stiSyndrome.setGudHerpeticMale(data[116] != null ? ((Integer) data[116]).intValue() : null);
+			    stiSyndrome.setGudHerpeticFemale(data[117] != null ? ((Integer) data[117]).intValue() : null);
+			    stiSyndrome.setGudHerpeticTGTS(data[118] != null ? ((Integer) data[118]).intValue() : null);
+			    stiSyndrome.setGudHerpeticTotal(data[119] != null ? ((Integer) data[119]).intValue() : null);
+			    stiSyndrome.setGudHerpeticTreated(data[120] != null ? ((Integer) data[120]).intValue() : null);
+			    stiSyndrome.setLapFemale(data[121] != null ? ((Integer) data[121]).intValue() : null);
+			    stiSyndrome.setLapTotal(data[122] != null ? ((Integer) data[122]).intValue() : null);
+			    stiSyndrome.setLapTreated(data[123] != null ? ((Integer) data[123]).intValue() : null);
+			    stiSyndrome.setUdMale(data[124] != null ? ((Integer) data[124]).intValue() : null);
+			    stiSyndrome.setUdTGTS(data[125] != null ? ((Integer) data[125]).intValue() : null);
+			    stiSyndrome.setUdTotal(data[126] != null ? ((Integer) data[126]).intValue() : null);
+			    stiSyndrome.setUdTreated(data[127] != null ? ((Integer) data[127]).intValue() : null);
+			    stiSyndrome.setArdMale(data[128] != null ? ((Integer) data[128]).intValue() : null);
+			    stiSyndrome.setArdFemale(data[129] != null ? ((Integer) data[129]).intValue() : null);
+			    stiSyndrome.setArdTGTS(data[130] != null ? ((Integer) data[130]).intValue() : null);
+			    stiSyndrome.setArdTotal(data[131] != null ? ((Integer) data[131]).intValue() : null);
+			    stiSyndrome.setArdTreated(data[132] != null ? ((Integer) data[132]).intValue() : null);    
+			    stiSyndrome.setIbMale(data[133] != null ? ((Integer) data[133]).intValue() : null);
+			    stiSyndrome.setIbFemale(data[134] != null ? ((Integer) data[134]).intValue() : null);
+			    stiSyndrome.setIbTGTS(data[135] != null ? ((Integer) data[135]).intValue() : null);
+			    stiSyndrome.setIbTotal(data[136] != null ? ((Integer) data[136]).intValue() : null);
+			    stiSyndrome.setIbTreated(data[137] != null ? ((Integer) data[137]).intValue() : null);
+			    stiSyndrome.setSsMale(data[138] != null ? ((Integer) data[138]).intValue() : null);
+			    stiSyndrome.setSsTGTS(data[139] != null ? ((Integer) data[139]).intValue() : null);
+			    stiSyndrome.setSsTotal(data[140] != null ? ((Integer) data[140]).intValue() : null);
+			    stiSyndrome.setSsTreated(data[141] != null ? ((Integer) data[141]).intValue() : null);
+			    stiSyndrome.setGenitalWartsMale(data[142] != null ? ((Integer) data[142]).intValue() : null);
+			    stiSyndrome.setGenitalWartsFemale(data[143] != null ? ((Integer) data[143]).intValue() : null);
+			    stiSyndrome.setGenitalWartsTGTS(data[144] != null ? ((Integer) data[144]).intValue() : null);
+			    stiSyndrome.setGenitalWartsTotal(data[145] != null ? ((Integer) data[145]).intValue() : null);
+			    stiSyndrome.setGenitalWartsTreated(data[146] != null ? ((Integer) data[146]).intValue() : null);
+			    stiSyndrome.setOtherSTIsMale(data[147] != null ? ((Integer) data[147]).intValue() : null);
+			    stiSyndrome.setOtherSTIsFemale(data[148] != null ? ((Integer) data[148]).intValue() : null);
+			    stiSyndrome.setOtherSTIsTGTS(data[149] != null ? ((Integer) data[149]).intValue() : null);
+			    stiSyndrome.setOtherSTIsTotal(data[150] != null ? ((Integer) data[150]).intValue() : null);
+			    stiSyndrome.setOtherSTIsTreated(data[151] != null ? ((Integer) data[151]).intValue() : null);
+			    stiSyndrome.setOtherInformation(data[152] != null ? (String) data[152] : null);
+
+			    NewHealthCamp healthCamp = new NewHealthCamp(campData,serviceUptake,stiSyndrome);
+			    healthCamp.setCampData(campData);
+	            healthCamp.setNewserviceUptake(serviceUptake);
+	            healthCamp.setNewstiSyndrome(stiSyndrome);
+
+	            healthCamps.add(healthCamp);
+	        }
+
+	        return healthCamps;
+	    }
 	    
 		/*
 		 * Long lastInsertedId() { return campDataRepository.getLastInsertedId(); }
