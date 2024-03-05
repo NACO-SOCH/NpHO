@@ -1,5 +1,7 @@
 package gov.naco.soch.npho.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 public class NewServiceUptake {
 
 		  	private Integer generalHealthCheckupMale;
@@ -124,6 +126,47 @@ public class NewServiceUptake {
 		    private Integer hepCPositivePutOnTreatmentTransgender;  //new added
 		    private Integer hepCPositivePutOnTreatmentTotal;        //new added
 		    
+		    
+		    /*
+		     * New entry
+		     * */
+		    
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeHivPositiveLinkedToartMale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+			private Integer cumulativehivpositivelinkedtoartfeale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeHivPositiveLinkedToTransgender;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeHivPositiveLinkedToTotal;
+		    
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeTBPositivePutonDOTSMale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeTBPositivePutonDOTSFemale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeTBPositivePutonDOTSTransgender;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeTBPositivePutonDOTSTotal;
+		    
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer ostInitiatedMale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer ostInitiatedFemale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer ostInitiatedTransgender;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer ostInitiatedTotal;
+		    
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeonOSTMale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeonOSTFemale;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeonOSTTransgender;
+		    @JsonInclude(JsonInclude.Include.NON_NULL)
+		    private Integer cumulativeonOSTTotal;
+		    		    
 			public Integer getGeneralHealthCheckupMale() {
 				return generalHealthCheckupMale;
 			}
@@ -711,6 +754,103 @@ public class NewServiceUptake {
 			}
 			public void setHepCPositivePutOnTreatmentTotal(Integer hepCPositivePutOnTreatmentTotal) {
 				this.hepCPositivePutOnTreatmentTotal = hepCPositivePutOnTreatmentTotal;
+			}
+			
+		    public Integer getCumulativeHivPositiveLinkedToartMale() {
+				return cumulativeHivPositiveLinkedToartMale;
+			}
+			public void setCumulativeHivPositiveLinkedToartMale(Integer cumulativeHivPositiveLinkedToartMale) {
+				this.cumulativeHivPositiveLinkedToartMale = cumulativeHivPositiveLinkedToartMale;
+			}
+			public Integer getCumulativeHivPositiveLinkedToartFeale() {
+				return cumulativehivpositivelinkedtoartfeale;
+			}
+			public void setCumulativeHivPositiveLinkedToartFeale(Integer cumulativeHivPositiveLinkedToartFeale) {
+				this.cumulativehivpositivelinkedtoartfeale = cumulativeHivPositiveLinkedToartFeale;
+			}
+			public Integer getCumulativeHivPositiveLinkedToTransgender() {
+				return cumulativeHivPositiveLinkedToTransgender;
+			}
+			public void setCumulativeHivPositiveLinkedToTransgender(Integer cumulativeHivPositiveLinkedToTransgender) {
+				this.cumulativeHivPositiveLinkedToTransgender = cumulativeHivPositiveLinkedToTransgender;
+			}
+			public Integer getCumulativeHivPositiveLinkedToTotal() {
+				return cumulativeHivPositiveLinkedToTotal;
+			}
+			public void setCumulativeHivPositiveLinkedToTotal(Integer cumulativeHivPositiveLinkedToTotal) {
+				this.cumulativeHivPositiveLinkedToTotal = cumulativeHivPositiveLinkedToTotal;
+			}
+			public Integer getCumulativeTBPositivePutonDOTSMale() {
+				return cumulativeTBPositivePutonDOTSMale;
+			}
+			public void setCumulativeTBPositivePutonDOTSMale(Integer cumulativeTBPositivePutonDOTSMale) {
+				this.cumulativeTBPositivePutonDOTSMale = cumulativeTBPositivePutonDOTSMale;
+			}
+			public Integer getCumulativeTBPositivePutonDOTSFemale() {
+				return cumulativeTBPositivePutonDOTSFemale;
+			}
+			public void setCumulativeTBPositivePutonDOTSFemale(Integer cumulativeTBPositivePutonDOTSFemale) {
+				this.cumulativeTBPositivePutonDOTSFemale = cumulativeTBPositivePutonDOTSFemale;
+			}
+			public Integer getCumulativeTBPositivePutonDOTSTransgender() {
+				return cumulativeTBPositivePutonDOTSTransgender;
+			}
+			public void setCumulativeTBPositivePutonDOTSTransgender(Integer cumulativeTBPositivePutonDOTSTransgender) {
+				this.cumulativeTBPositivePutonDOTSTransgender = cumulativeTBPositivePutonDOTSTransgender;
+			}
+			public Integer getCumulativeTBPositivePutonDOTSMaleTotal() {
+				return cumulativeTBPositivePutonDOTSTotal;
+			}
+			public void setCumulativeTBPositivePutonDOTSMaleTotal(Integer cumulativeTBPositivePutonDOTSMaleTotal) {
+				this.cumulativeTBPositivePutonDOTSTotal = cumulativeTBPositivePutonDOTSMaleTotal;
+			}
+			public Integer getOstInitiatedMale() {
+				return ostInitiatedMale;
+			}
+			public void setOstInitiatedMale(Integer ostInitiatedMale) {
+				this.ostInitiatedMale = ostInitiatedMale;
+			}
+			public Integer getOstInitiatedFemale() {
+				return ostInitiatedFemale;
+			}
+			public void setOstInitiatedFemale(Integer ostInitiatedFemale) {
+				this.ostInitiatedFemale = ostInitiatedFemale;
+			}
+			public Integer getOstInitiatedTransgender() {
+				return ostInitiatedTransgender;
+			}
+			public void setOstInitiatedTransgender(Integer ostInitiatedTransgender) {
+				this.ostInitiatedTransgender = ostInitiatedTransgender;
+			}
+			public Integer getOstInitiatedTotal() {
+				return ostInitiatedTotal;
+			}
+			public void setOstInitiatedTotal(Integer ostInitiatedTotal) {
+				this.ostInitiatedTotal = ostInitiatedTotal;
+			}
+			public Integer getCumulativeonOSTMale() {
+				return cumulativeonOSTMale;
+			}
+			public void setCumulativeonOSTMale(Integer cumulativeonOSTMale) {
+				this.cumulativeonOSTMale = cumulativeonOSTMale;
+			}
+			public Integer getCumulativeonOSTFemale() {
+				return cumulativeonOSTFemale;
+			}
+			public void setCumulativeonOSTFemale(Integer cumulativeonOSTFemale) {
+				this.cumulativeonOSTFemale = cumulativeonOSTFemale;
+			}
+			public Integer getCumulativeonOSTTransgender() {
+				return cumulativeonOSTTransgender;
+			}
+			public void setCumulativeonOSTTransgender(Integer cumulativeonOSTTransgender) {
+				this.cumulativeonOSTTransgender = cumulativeonOSTTransgender;
+			}
+			public Integer getCumulativeonOSTTotal() {
+				return cumulativeonOSTTotal;
+			}
+			public void setCumulativeonOSTTotal(Integer cumulativeonOSTTotal) {
+				this.cumulativeonOSTTotal = cumulativeonOSTTotal;
 			}
 		   
 }

@@ -7,7 +7,6 @@ import gov.naco.soch.npho.model.UserDTO;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +23,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 @RestController
@@ -130,25 +127,63 @@ public class HealthCampController {
         		 	UUID guid = UUID.randomUUID();
         		 	
         		 	guidString = guid.toString();
-        		 	campDataService.saveCampData(healthCamp,guidString);
+        		 	campDataService.saveCampData(healthCamp,guidString); 
         	        campDataService.saveServiceUptake(healthCamp,guidString);
-        	        campDataService.stiSyndrome(healthCamp, guidString);
+        	        campDataService.stiSyndrome(healthCamp, guidString);  
         	        return ResponseEntity.ok().body(guidString.toString());
         	    } catch (Exception e) {
         	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
         	    }
     		}else {
     			try {
-    				campDataService.updateCampData(healthCamp,guidString);
+    				campDataService.updateCampData(healthCamp,guidString); 
     				campDataService.saveServiceUptake(healthCamp,guidString);
         	        campDataService.stiSyndrome(healthCamp, guidString);
-        	        return ResponseEntity.ok().body(guidString.toString());
+        	        return ResponseEntity.ok().body(guidString.toString()); 
     			}catch(Exception e) {
     				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
     			}
     			
     		}
        }
+    
+    
+    //new one
+    @PostMapping("/reportData")
+    public ResponseEntity<String> reportData(@RequestBody NewHealthCamp healthCamp) throws IOException {
+    	
+    		String guidString = healthCamp.getCampData().getGuid();
+    		if( guidString.isEmpty() ) {
+    	    	try {
+        		 	UUID guid = UUID.randomUUID();
+        		 	
+        		 	guidString = guid.toString();
+        		 	campDataService.saveCampDataReport(healthCamp,guidString); //resue
+        	        campDataService.saveServiceUptakeReport(healthCamp,guidString); //new
+        	        campDataService.stiSyndromeReport(healthCamp, guidString);   //resue
+        	        return ResponseEntity.ok().body(guidString.toString());
+        	    } catch (Exception e) {
+        	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
+        	    }
+    		}else {
+    			try {
+    				campDataService.updateCampDataReport(healthCamp,guidString); //resue
+    				campDataService.saveServiceUptakeReport(healthCamp,guidString);
+        	        campDataService.stiSyndromeReport(healthCamp, guidString); //resue
+        	        return ResponseEntity.ok().body(guidString.toString()); 
+    			}catch(Exception e) {
+    				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
+    			}
+    			
+    		}
+       }
+    
+    
+    @GetMapping("/getUserDataReport")
+    public ResponseEntity<?> getUserDataReport(@RequestParam String userid){
+    	List<NewHealthCamp> healthCamps = campDataService.getUserReport(userid);
+    	return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+    }
     
     
   @PutMapping("/resetPassword1")
@@ -184,22 +219,7 @@ public class HealthCampController {
       }
   }
  
-    
-<<<<<<< HEAD
-	  @GetMapping("/getData")
-	  public ResponseEntity<?> getData(){
-		     List<NewHealthCamp> healthCamps = campDataService.getAllData();
-		     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
-	  }
-	  
-	  
-	  @GetMapping("/getUserData")
-	  public ResponseEntity<?> getUserData(@RequestParam String userid){
-		     List<NewHealthCamp> healthCamps = campDataService.getUserData(userid);
-		     return new ResponseEntity<>(healthCamps, HttpStatus.OK);
-	  }
 	    
-=======
 //  @GetMapping("/getData")
 //  public ResponseEntity<?> getData(){
 //	     List<NewHealthCamp> healthCamps = campDataService.getAllData();
@@ -219,8 +239,16 @@ public class HealthCampController {
 
       return new ResponseEntity<>(healthCamps, HttpStatus.OK);
   }
-    
->>>>>>> 3712645d37cc514a5e78e9ab8b5e66c0adaa7b63
+  
+  
+  @GetMapping("/getDataReport")
+  public ResponseEntity<?> getDataReport(@RequestParam(required = false) String stateName) {
+	  		List<NewHealthCamp> healthCamps;
+
+          healthCamps = campDataService.getStateDataReport(stateName);
+
+      return new ResponseEntity<>(healthCamps, HttpStatus.OK);
+  }
     
     @PostMapping("/dataEntry")
     public HealthCamp createHealthCamp(@RequestBody HealthCamp healthCamp) throws IOException {
