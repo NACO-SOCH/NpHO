@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -54,6 +55,18 @@ public class CampData {
 	    
 	    private String guid;
 	    
+		@JsonInclude(JsonInclude.Include.NON_NULL)
+	    private String facilityName;
+	 
+
+		public String getFacilityName() {
+			return facilityName;
+		}
+
+		public void setFacilityName(String facilityName) {
+			this.facilityName = facilityName;
+		}
+
 		public String getGuid() {
 			return guid;
 		}

@@ -167,9 +167,9 @@ public class HealthCampController {
         	    }
     		}else {
     			try {
-    				campDataService.updateCampDataReport(healthCamp,guidString); //resue
+    				campDataService.updateCampDataReport(healthCamp,guidString); 
     				campDataService.saveServiceUptakeReport(healthCamp,guidString);
-        	        campDataService.stiSyndromeReport(healthCamp, guidString); //resue
+        	        campDataService.stiSyndromeReport(healthCamp, guidString);
         	        return ResponseEntity.ok().body(guidString.toString()); 
     			}catch(Exception e) {
     				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save health camp data.");
@@ -346,6 +346,12 @@ public class HealthCampController {
 
     @PutMapping("/delete")
     public ResponseEntity<String> deleteResource(@RequestParam("id") Integer id) {
+    	campDataService.deleteData(id);
+        return ResponseEntity.ok("Resource deleted successfully");
+    }
+    
+    @PutMapping("/deleteReport")
+    public ResponseEntity<String> deleteReport(@RequestParam("id") Integer id) {
     	campDataService.deleteData(id);
         return ResponseEntity.ok("Resource deleted successfully");
     }

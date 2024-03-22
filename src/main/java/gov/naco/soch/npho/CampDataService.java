@@ -675,6 +675,8 @@ public class CampDataService {
 			    campData.setGeneratedDate(data[154] != null ? (Date) data[154] : null); 
 			    
 			    campData.setGuid(data[153] != null ? (String) data[153] : null);
+
+			    campData.setFacilityName(data[171] != null ? (String) data[171] : null);
 			    
 			    NewServiceUptake serviceUptake = new NewServiceUptake();
 			    serviceUptake.setGeneralHealthCheckupMale(data[10] != null ? (Integer) data[10] : null);
@@ -776,6 +778,26 @@ public class CampDataService {
 			    serviceUptake.setHepCPositivePutOnTreatmentTransgender(data[106] != null ? (Integer) data[106] : null);
 			    serviceUptake.setHepCPositivePutOnTreatmentTotal(data[107] != null ? (Integer) data[107] : null);
 			    
+			    serviceUptake.setCumulativeHivPositiveLinkedToartMale(data[155] != null ? (Integer) data[155] : null);
+			    serviceUptake.setCumulativeHivPositiveLinkedToartFeale(data[156] != null ? (Integer) data[156] : null);
+			    serviceUptake.setCumulativeHivPositiveLinkedToTransgender(data[157] != null ? (Integer) data[157] : null);
+			    serviceUptake.setCumulativeHivPositiveLinkedToTotal(data[158] != null ? (Integer) data[158] : null);
+			    
+			    serviceUptake.setCumulativeTBPositivePutonDOTSMale(data[159] != null ? (Integer) data[159] : null);
+			    serviceUptake.setCumulativeTBPositivePutonDOTSFemale(data[160] != null ? (Integer) data[160] : null);
+			    serviceUptake.setCumulativeTBPositivePutonDOTSTransgender(data[161] != null ? (Integer) data[161] : null);
+			    serviceUptake.setCumulativeTBPositivePutonDOTSMaleTotal(data[162] != null ? (Integer) data[162] : null);
+			    
+			    serviceUptake.setOstInitiatedMale(data[163] != null ? (Integer) data[163] : null);
+			    serviceUptake.setOstInitiatedFemale(data[164] != null ? (Integer) data[164] : null);
+			    serviceUptake.setOstInitiatedTransgender(data[165] != null ? (Integer) data[165] : null);
+			    serviceUptake.setOstInitiatedTotal(data[166] != null ? (Integer) data[166] : null);
+			    
+			    
+			    serviceUptake.setCumulativeonOSTMale(data[167] != null ? (Integer) data[167] : null);
+			    serviceUptake.setCumulativeonOSTFemale(data[168] != null ? (Integer) data[168] : null);
+			    serviceUptake.setCumulativeonOSTTransgender(data[169] != null ? (Integer) data[169] : null);
+			    serviceUptake.setCumulativeonOSTTotal(data[170] != null ? (Integer) data[170] : null);
 			    
 			    NewSTISyndromeDTO stiSyndrome = new NewSTISyndromeDTO();
 			    stiSyndrome.setVcdFemale(data[108] != null ? ((Integer) data[108]).intValue() : null);
@@ -1215,6 +1237,10 @@ public class CampDataService {
 	    	  prisonRepo.deleteData(id);
 	    }
 	    
+	    public void deleteReport(Integer id) {
+	    	  prisonRepo.deleteReport(id);
+	    }
+	    
 	    
 	    public void saveCampDataReport(NewHealthCamp healthCamp, String guid) {
 	        CampData campData = healthCamp.getCampData();
@@ -1230,7 +1256,8 @@ public class CampDataService {
 	            campData.getReportDate(),
 	            campData.getUserId(),
 	            guid,
-	            campData.getGeneratedDate()
+	            campData.getGeneratedDate(),
+	            campData.getFacilityName()
 	        ); 
 	         
 	    }
@@ -1250,7 +1277,8 @@ public class CampDataService {
 	            campData.getReportDate(),
 	            campData.getUserId(),
 	            guid,
-	            campData.getGeneratedDate()
+	            campData.getGeneratedDate(),
+	            campData.getFacilityName()
 	        );        
 	    }
 	    
@@ -1280,6 +1308,8 @@ public class CampDataService {
 				    campData.setGeneratedDate(data[154] != null ? (Date) data[154] : null); 
 				    
 				    campData.setGuid(data[153] != null ? (String) data[153] : null);
+				    
+				    campData.setFacilityName(data[171] != null ? (String) data[171] : null);
 				    
 				    NewServiceUptake serviceUptake = new NewServiceUptake();
 				    serviceUptake.setGeneralHealthCheckupMale(data[10] != null ? (Integer) data[10] : null);
@@ -1492,7 +1522,8 @@ public class CampDataService {
 			    campData.setUserId(data[9] != null ? (String) data[9] : null);        
 			    campData.setGeneratedDate(data[154] != null ? (Date) data[154] : null); 
 			    campData.setGuid(data[153] != null ? (String) data[153] : null);
-			  
+			    campData.setFacilityName(data[171] != null ? (String) data[171] : null);
+			    
 			    NewServiceUptake serviceUptake = new NewServiceUptake();
 			    serviceUptake.setGeneralHealthCheckupMale(data[10] != null ? (Integer) data[10] : null);
 			    serviceUptake.setGeneralHealthCheckupFemale(data[11] != null ? (Integer) data[11] : null);
@@ -1592,7 +1623,26 @@ public class CampDataService {
 			    serviceUptake.setHepCPositivePutOnTreatmentFemale(data[105] != null ? (Integer) data[105] : null);
 			    serviceUptake.setHepCPositivePutOnTreatmentTransgender(data[106] != null ? (Integer) data[106] : null);
 			    serviceUptake.setHepCPositivePutOnTreatmentTotal(data[107] != null ? (Integer) data[107] : null);
+			    serviceUptake.setCumulativeHivPositiveLinkedToartMale(data[155] != null ? (Integer) data[155] : null);
+			    serviceUptake.setCumulativeHivPositiveLinkedToartFeale(data[156] != null ? (Integer) data[156] : null);
+			    serviceUptake.setCumulativeHivPositiveLinkedToTransgender(data[157] != null ? (Integer) data[157] : null);
+			    serviceUptake.setCumulativeHivPositiveLinkedToTotal(data[158] != null ? (Integer) data[158] : null);
 			    
+			    serviceUptake.setCumulativeTBPositivePutonDOTSMale(data[159] != null ? (Integer) data[159] : null);
+			    serviceUptake.setCumulativeTBPositivePutonDOTSFemale(data[160] != null ? (Integer) data[160] : null);
+			    serviceUptake.setCumulativeTBPositivePutonDOTSTransgender(data[161] != null ? (Integer) data[161] : null);
+			    serviceUptake.setCumulativeTBPositivePutonDOTSMaleTotal(data[162] != null ? (Integer) data[162] : null);
+			    
+			    serviceUptake.setOstInitiatedMale(data[163] != null ? (Integer) data[163] : null);
+			    serviceUptake.setOstInitiatedFemale(data[164] != null ? (Integer) data[164] : null);
+			    serviceUptake.setOstInitiatedTransgender(data[165] != null ? (Integer) data[165] : null);
+			    serviceUptake.setOstInitiatedTotal(data[166] != null ? (Integer) data[166] : null);
+			    
+			    
+			    serviceUptake.setCumulativeonOSTMale(data[167] != null ? (Integer) data[167] : null);
+			    serviceUptake.setCumulativeonOSTFemale(data[168] != null ? (Integer) data[168] : null);
+			    serviceUptake.setCumulativeonOSTTransgender(data[169] != null ? (Integer) data[169] : null);
+			    serviceUptake.setCumulativeonOSTTotal(data[170] != null ? (Integer) data[170] : null);
 			    
 			    NewSTISyndromeDTO stiSyndrome = new NewSTISyndromeDTO();
 			    stiSyndrome.setVcdFemale(data[108] != null ? ((Integer) data[108]).intValue() : null);
